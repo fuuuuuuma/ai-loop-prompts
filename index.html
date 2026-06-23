@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>/loop プロンプト集 — 業種・用途で探す自律ループのレシピ</title>
+<meta name="description" content="Claude Code / Codex の /loop（定期・セルフペース実行）で使える日本語プロンプトを業種・用途で検索できるライブラリ。コピーして使えるAGENTS.md / CLAUDE.md構造つき。">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=M+PLUS+Rounded+1c:wght@700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* Kawaru = 信頼の基調（ネイビー×ブルー） */
+    --navy:#1C3461; --navy-deep:#16284A; --blue:#5BBCD4; --blue-deep:#2C7A93;
+    /* ClaudeCode = 親しみの差し色（コーラル＋丸ゴシック） */
+    --coral:#D9774F; --coral-deep:#C15640; --coral-soft:#FBEEE7;
+    --cream:#F1ECE3; --paper:#FBF8F2; --white:#fff;
+    --bg:#EDF0F4; --navy-soft:#EAF0F7; --blue-soft:#EAF6FA;
+    --ink:#26313F; --ink-mid:#55606E; --ink-sub:#9AA6B4;
+    --line:rgba(28,52,97,.13); --line-cream:#E4D9C7;
+    --head:'M PLUS Rounded 1c','Noto Sans JP',sans-serif;
+    --body:'Noto Sans JP',sans-serif;
+    --shadow:0 6px 24px rgba(28,52,97,.08);
+    --shadow-lg:0 14px 44px rgba(28,52,97,.14);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg);font-family:var(--body);color:var(--ink);line-height:1.75;-webkit-font-smoothing:antialiased;}
+  ::selection{background:var(--coral-soft);}
+
+  /* ---------- ヘッダー / ナビ ---------- */
+  header.site{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.88);backdrop-filter:blur(12px);
+    border-bottom:1px solid var(--line);}
+  .nav{max-width:1180px;margin:0 auto;display:flex;align-items:center;gap:18px;padding:12px 22px;}
+  .brand{display:flex;align-items:center;gap:11px;font-family:var(--head);font-weight:800;color:var(--navy);font-size:18px;}
+  .brand img{width:36px;height:36px;border-radius:50%;border:2px solid var(--white);box-shadow:0 2px 8px rgba(28,52,97,.18);}
+  .brand .slash{color:var(--coral);}
+  .tabs{margin-left:auto;display:flex;gap:6px;background:var(--bg);padding:5px;border-radius:12px;border:1px solid var(--line);}
+  .tab{appearance:none;border:0;background:transparent;cursor:pointer;font-family:var(--head);font-weight:700;
+    font-size:14px;color:var(--ink-mid);padding:8px 16px;border-radius:9px;transition:.16s;white-space:nowrap;}
+  .tab:hover{color:var(--navy);}
+  .tab.active{background:var(--white);color:var(--navy);box-shadow:0 2px 8px rgba(28,52,97,.12);}
+  @media(max-width:720px){.nav{flex-wrap:wrap;gap:10px;}.tabs{margin-left:0;width:100%;}.tab{flex:1;padding:8px 6px;}}
+
+  /* ---------- ページ共通 ---------- */
+  .page{display:none;}
+  .page.show{display:block;animation:fade .3s ease;}
+  @keyframes fade{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 22px;}
+
+  /* ---------- ヒーロー ---------- */
+  .hero{background:linear-gradient(125deg,var(--navy-deep) 0%,var(--navy) 48%,var(--blue-deep) 100%);
+    color:#fff;position:relative;overflow:hidden;}
+  .hero::after{content:"";position:absolute;inset:0;opacity:.5;
+    background-image:radial-gradient(circle,rgba(255,255,255,.10) 1.4px,transparent 1.5px);
+    background-size:22px 22px;pointer-events:none;}
+  .hero .wrap{position:relative;z-index:1;padding:64px 22px 56px;}
+  .hero .eyebrow{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.12);
+    border:1px solid rgba(255,255,255,.25);color:#dff1f7;font-weight:700;font-size:13px;
+    padding:6px 14px;border-radius:30px;margin-bottom:20px;}
+  .hero .eyebrow b{color:var(--coral);font-family:var(--head);}
+  .hero h1{font-family:var(--head);font-weight:800;font-size:clamp(30px,5vw,50px);line-height:1.2;letter-spacing:.5px;margin-bottom:18px;}
+  .hero h1 .slash{color:#F2B98F;}
+  .hero p.lead{font-size:clamp(15px,2vw,18px);color:#d6e2f0;max-width:680px;margin-bottom:30px;}
+  .hero .stats{display:flex;gap:30px;flex-wrap:wrap;}
+  .hero .stats .s b{font-family:var(--head);font-size:28px;color:#fff;display:block;line-height:1;}
+  .hero .stats .s span{font-size:12.5px;color:#bcd0e4;}
+  .hero .scrolltip{margin-top:30px;font-size:13px;color:#bcd0e4;}
+
+  /* ---------- /loop 説明バー ---------- */
+  .explain{background:var(--white);border-bottom:1px solid var(--line);}
+  .explain .wrap{display:flex;gap:18px;flex-wrap:wrap;padding:22px 22px;align-items:center;}
+  .explain .lp{font-family:var(--head);font-weight:800;color:var(--navy);font-size:15px;white-space:nowrap;}
+  .explain code{background:var(--navy);color:#dff1f7;font-family:ui-monospace,Menlo,monospace;font-size:13px;
+    padding:3px 9px;border-radius:6px;}
+  .explain .txt{font-size:13.5px;color:var(--ink-mid);flex:1;min-width:260px;}
+
+  /* ---------- 検索 / フィルタ ---------- */
+  .controls{position:sticky;top:61px;z-index:40;background:var(--bg);padding:22px 0 16px;border-bottom:1px solid var(--line);}
+  .search{position:relative;margin-bottom:16px;}
+  .search input{width:100%;font-family:var(--body);font-size:16px;color:var(--ink);background:var(--white);
+    border:1.5px solid var(--line);border-radius:13px;padding:15px 18px 15px 48px;outline:none;transition:.16s;box-shadow:var(--shadow);}
+  .search input:focus{border-color:var(--coral);box-shadow:0 0 0 4px var(--coral-soft);}
+  .search svg{position:absolute;left:17px;top:50%;transform:translateY(-50%);width:20px;height:20px;color:var(--ink-sub);}
+  .filtrow{margin-bottom:11px;}
+  .filtrow .lab{font-family:var(--head);font-weight:700;font-size:12.5px;color:var(--ink-mid);margin-bottom:7px;display:flex;align-items:center;gap:7px;}
+  .filtrow .lab .dot{width:9px;height:9px;border-radius:3px;}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;}
+  .chip{appearance:none;cursor:pointer;font-family:var(--body);font-weight:700;font-size:13px;
+    border-radius:30px;padding:7px 15px;transition:.15s;background:var(--white);}
+  /* 業種 = ネイビー軸 */
+  .chip.ind{border:1.5px solid var(--line);color:var(--navy);}
+  .chip.ind:hover{border-color:var(--blue);background:var(--blue-soft);}
+  .chip.ind.on{background:var(--navy);border-color:var(--navy);color:#fff;}
+  /* 用途 = コーラル軸 */
+  .chip.use{border:1.5px solid var(--line-cream);color:var(--coral-deep);}
+  .chip.use:hover{border-color:var(--coral);background:var(--coral-soft);}
+  .chip.use.on{background:var(--coral);border-color:var(--coral);color:#fff;}
+  .barrow{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding-top:4px;}
+  .count{font-size:13px;color:var(--ink-mid);}
+  .count b{color:var(--navy);font-family:var(--head);font-size:16px;}
+  .clear{appearance:none;border:0;background:transparent;cursor:pointer;font-family:var(--body);font-weight:700;
+    font-size:13px;color:var(--coral-deep);text-decoration:underline;text-underline-offset:3px;}
+  .clear:hover{color:var(--coral);}
+
+  /* ---------- カードグリッド ---------- */
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:18px;padding:26px 0 70px;}
+  .card{background:var(--white);border:1px solid var(--line);border-radius:16px;overflow:hidden;
+    display:flex;flex-direction:column;box-shadow:var(--shadow);transition:.18s;}
+  .card:hover{box-shadow:var(--shadow-lg);transform:translateY(-3px);border-color:var(--blue);}
+  .card.adv{border-color:var(--coral);}
+  .card .top{padding:18px 20px 14px;border-bottom:1px dashed var(--line);}
+  .card .tagline{display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap;}
+  .t-ind{font-size:11px;font-weight:700;color:#fff;background:var(--navy);border-radius:20px;padding:3px 10px;}
+  .t-use{font-size:11px;font-weight:700;color:var(--coral-deep);background:var(--coral-soft);border:1px solid #ecd5c8;border-radius:20px;padding:3px 10px;}
+  .t-int{margin-left:auto;font-size:11px;font-weight:700;color:var(--blue-deep);background:var(--blue-soft);border-radius:20px;padding:3px 10px;white-space:nowrap;}
+  .card h3{font-family:var(--head);font-weight:800;font-size:17px;color:var(--navy);line-height:1.4;margin-bottom:6px;}
+  .card .desc{font-size:13px;color:var(--ink-mid);}
+  .card .mid{padding:16px 20px;flex:1;}
+  .card pre{background:#0F1B2D;color:#e7eefb;font-family:ui-monospace,Menlo,monospace;font-size:12.5px;line-height:1.65;
+    border-radius:11px;padding:14px 15px;white-space:pre-wrap;word-break:break-word;overflow:hidden;position:relative;}
+  .card pre .cmd{color:#F2B98F;font-weight:700;}
+  .card .tip{margin-top:12px;font-size:12.5px;color:var(--ink-mid);display:flex;gap:7px;}
+  .card .tip b{color:var(--coral-deep);}
+  .card .bot{padding:0 20px 18px;display:flex;gap:9px;}
+  .copy{flex:1;appearance:none;border:0;cursor:pointer;font-family:var(--head);font-weight:700;font-size:13.5px;
+    color:#fff;background:var(--coral);border-radius:10px;padding:11px;transition:.15s;display:flex;align-items:center;justify-content:center;gap:7px;}
+  .copy:hover{background:var(--coral-deep);}
+  .copy.done{background:var(--navy);}
+  .copy svg{width:15px;height:15px;}
+  .empty{grid-column:1/-1;text-align:center;padding:60px 20px;color:var(--ink-mid);}
+  .empty b{font-family:var(--head);color:var(--navy);font-size:18px;display:block;margin-bottom:6px;}
+
+  /* ---------- 構造ファイルページ ---------- */
+  .sec-head{padding:54px 22px 10px;text-align:center;}
+  .sec-head .eyebrow{display:inline-block;font-family:var(--head);font-weight:700;font-size:13px;color:var(--coral-deep);
+    background:var(--coral-soft);border-radius:20px;padding:5px 14px;margin-bottom:14px;}
+  .sec-head h2{font-family:var(--head);font-weight:800;font-size:clamp(24px,4vw,34px);color:var(--navy);margin-bottom:10px;}
+  .sec-head p{font-size:14.5px;color:var(--ink-mid);max-width:640px;margin:0 auto;}
+  .fileswitch{display:flex;justify-content:center;gap:8px;margin:26px 0 22px;}
+  .fbtn{appearance:none;cursor:pointer;font-family:ui-monospace,Menlo,monospace;font-weight:700;font-size:14px;
+    border:1.5px solid var(--line);background:var(--white);color:var(--ink-mid);border-radius:11px;padding:11px 22px;transition:.15s;}
+  .fbtn:hover{border-color:var(--blue);}
+  .fbtn.active{background:var(--navy);color:#fff;border-color:var(--navy);}
+  .filebox{display:none;max-width:880px;margin:0 auto 70px;}
+  .filebox.show{display:block;}
+  .filebox .fmeta{display:flex;align-items:center;gap:12px;margin-bottom:12px;flex-wrap:wrap;}
+  .filebox .fmeta .fname{font-family:ui-monospace,Menlo,monospace;font-weight:700;color:var(--navy);font-size:15px;
+    background:var(--white);border:1px solid var(--line);border-radius:8px;padding:5px 12px;}
+  .filebox .fmeta .fdesc{font-size:13px;color:var(--ink-mid);flex:1;min-width:200px;}
+  .filebox .copy{flex:none;width:auto;padding:9px 16px;}
+  .filebox pre{background:#0F1B2D;color:#e7eefb;font-family:ui-monospace,Menlo,monospace;font-size:13px;line-height:1.7;
+    border-radius:14px;padding:24px 24px;white-space:pre-wrap;word-break:break-word;box-shadow:var(--shadow-lg);}
+  .filebox pre .h{color:#F2B98F;font-weight:700;}
+  .filebox pre .c{color:#7d93b0;}
+
+  /* ---------- 復習ページ ---------- */
+  .review{max-width:980px;margin:0 auto;padding:0 22px 80px;}
+  .reviewcard{background:linear-gradient(125deg,var(--navy-deep),var(--navy) 55%,var(--blue-deep));
+    border-radius:22px;padding:40px 38px;color:#fff;position:relative;overflow:hidden;box-shadow:var(--shadow-lg);}
+  .reviewcard::after{content:"";position:absolute;inset:0;opacity:.45;
+    background-image:radial-gradient(circle,rgba(255,255,255,.10) 1.4px,transparent 1.5px);background-size:22px 22px;}
+  .reviewcard .rc{position:relative;z-index:1;}
+  .reviewcard h3{font-family:var(--head);font-weight:800;font-size:24px;margin-bottom:12px;}
+  .reviewcard p{color:#d6e2f0;font-size:14.5px;max-width:620px;margin-bottom:22px;}
+  .reviewcard a.go{display:inline-flex;align-items:center;gap:9px;background:var(--coral);color:#fff;
+    font-family:var(--head);font-weight:700;font-size:15px;text-decoration:none;border-radius:12px;padding:13px 24px;transition:.15s;}
+  .reviewcard a.go:hover{background:var(--coral-deep);}
+  .framewrap{margin-top:26px;border-radius:18px;overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow-lg);background:#000;}
+  .framewrap iframe{width:100%;height:560px;border:0;display:block;}
+  .rnote{margin-top:16px;font-size:13px;color:var(--ink-mid);text-align:center;}
+  .rnote a{color:var(--coral-deep);font-weight:700;}
+
+  /* ---------- フッター ---------- */
+  footer.site{background:var(--navy-deep);color:#aebfd4;padding:30px 22px;text-align:center;font-size:13px;}
+  footer.site .slash{color:var(--coral);font-family:var(--head);font-weight:800;}
+  footer.site a{color:#dff1f7;}
+</style>
+</head>
+<body>
+
+<!-- ============ ヘッダー ============ -->
+<header class="site">
+  <div class="nav">
+    <div class="brand">
+      <img src="data:image/jpeg;base64,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" alt="ロゴ">
+      <span><span class="slash">/</span>loop プロンプト集</span>
+    </div>
+    <div class="tabs">
+      <button class="tab active" data-page="library">プロンプト集</button>
+      <button class="tab" data-page="files">AGENTS / CLAUDE</button>
+      <button class="tab" data-page="review">復習資料</button>
+    </div>
+  </div>
+</header>
+
+<!-- ============ ① プロンプト集ページ ============ -->
+<div class="page show" id="page-library">
+
+  <section class="hero">
+    <div class="wrap">
+      <span class="eyebrow">Claude Code / Codex の <b>/loop</b> を使い倒すレシピ集</span>
+      <h1><span class="slash">/</span>loop プロンプト集<br>業種・用途で探す、自律ループのレシピ。</h1>
+      <p class="lead">「定期実行」と「セルフペース実行」で AI を回し続けるための、コピーして使える日本語プロンプト。検索とフィルタで、自分の仕事に効く一本をすぐ見つけられます。</p>
+      <div class="stats">
+        <div class="s"><b id="stat-total">—</b><span>収録プロンプト</span></div>
+        <div class="s"><b>6</b><span>業種で絞り込み</span></div>
+        <div class="s"><b>6</b><span>用途で絞り込み</span></div>
+        <div class="s"><b>1-click</b><span>そのままコピー</span></div>
+      </div>
+      <p class="scrolltip">↓ 下のボックスで検索／チップで「業種 × 用途」を掛け合わせて絞り込み</p>
+    </div>
+  </section>
+
+  <section class="explain">
+    <div class="wrap">
+      <span class="lp">/loop とは</span>
+      <span class="txt"><code>/loop 5m &lt;やること&gt;</code> で5分おきに繰り返し、間隔を省くと AI が自分のペースで「ゴール達成まで」回し続ける機能。下のプロンプトはその <b>&lt;やること&gt;</b> 部分です。</span>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <div class="controls">
+      <div class="search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+        <input id="q" type="text" placeholder="キーワードで検索（例: CI / 競合 / 議事録 / 監視 …）" autocomplete="off">
+      </div>
+      <div class="filtrow">
+        <div class="lab"><span class="dot" style="background:var(--navy)"></span>業種で絞る</div>
+        <div class="chips" id="ind-chips"></div>
+      </div>
+      <div class="filtrow">
+        <div class="lab"><span class="dot" style="background:var(--coral)"></span>用途で絞る</div>
+        <div class="chips" id="use-chips"></div>
+      </div>
+      <div class="barrow">
+        <span class="count"><b id="count">0</b> 件のプロンプト</span>
+        <button class="clear" id="clear" hidden>絞り込みをすべて解除</button>
+      </div>
+    </div>
+
+    <div class="grid" id="grid"></div>
+  </div>
+</div>
+
+<!-- ============ ② 構造ファイルページ ============ -->
+<div class="page" id="page-files">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">コピーして使える土台</span>
+      <h2>AGENTS.md / CLAUDE.md 構造ファイル</h2>
+      <p>ループを安全に回すには「ゴール・1ターンの粒度・ガードレール・停止条件」をプロジェクト側に書いておくのが近道。そのまま貼って育てられる雛形です。</p>
+    </div>
+    <div class="fileswitch">
+      <button class="fbtn active" data-file="claude">CLAUDE.md</button>
+      <button class="fbtn" data-file="agents">AGENTS.md</button>
+    </div>
+
+    <div class="filebox show" id="file-claude">
+      <div class="fmeta">
+        <span class="fname">CLAUDE.md</span>
+        <span class="fdesc">Claude Code 用。1リポジトリ＝1ループの運用ルールを置く想定。</span>
+        <button class="copy" data-copy="claudemd"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>コピー</button>
+      </div>
+<pre id="claudemd"><span class="h"># &lt;プロジェクト名&gt; — ループ運用ルール</span>
+
+<span class="h">## ゴール（このループの終了条件）</span>
+- 「達成」とみなす状態を1行で書く
+- 例: 全テストが green / 比較表の空欄がゼロ / 新着がN回連続でゼロ
+
+<span class="h">## 1ターンでやること</span>
+- 状態を確認 → 差分を1つ処理 → 結果を1行で記録、を繰り返す
+- 1ターンで触るのは「1ファイル / 1項目」まで（暴走防止）
+- 各ターン冒頭に進捗を、末尾に「やったこと / 次にやること」を残す
+
+<span class="h">## ガードレール（やってはいけないこと）</span>
+- 取り消せない操作（削除・上書き・force push・公開・課金・外部送信）は必ず確認
+- ゴールと無関係な改善・リファクタを足さない
+- 同じ修正を2回以上繰り返したら、止めて人間に報告する
+
+<span class="h">## 記録の残し方</span>
+- 進捗は progress ログへ追記（次ターンが読めるように）
+- 重要な判断・方針確定は memory/ に1ファイル1事実で残す
+
+<span class="h">## 停止したら</span>
+- 「達成 / タイムアウト / 復旧不能エラー」のどれかを明示
+- 達成したこと・残タスクをサマリで出す
+
+<span class="c"># 参考プロンプトは「/loop プロンプト集」から。</span>
+</pre>
+    </div>
+
+    <div class="filebox" id="file-agents">
+      <div class="fmeta">
+        <span class="fname">AGENTS.md</span>
+        <span class="fdesc">Codex / マルチエージェント用。役割を分けてループを回す編成の雛形。</span>
+        <button class="copy" data-copy="agentsmd"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>コピー</button>
+      </div>
+<pre id="agentsmd"><span class="h"># AGENTS.md — エージェント編成</span>
+
+<span class="h">## このリポジトリの目的</span>
+- &lt;何を、どこまで自動で回すかを1行で&gt;
+
+<span class="h">## 共通ルール</span>
+- 日本語で応答 / パスは絶対パス / 取り消せない操作は確認
+- 出力は他者レビュー前提の品質で仕上げる
+- スコープ外のファイルは触らない
+
+<span class="h">## エージェント分担</span>
+- explorer : 調査・現状把握（読み取り専用）
+- worker   : 実装・修正（1ターン1差分）
+- reviewer : 検証・品質チェック（破壊的変更の前段ゲート）
+
+<span class="h">## ループの回し方</span>
+1. explorer が残タスクを洗い出す
+2. worker が1つだけ処理する
+3. reviewer が結果を検証（OK→次へ / NG→worker に差し戻し）
+4. 残タスクがゼロ、または改善が頭打ちで停止
+
+<span class="h">## 停止条件</span>
+- 全タスク完了 / 2巡連続で新規ゼロ / 復旧不能エラー
+- 停止時は結果サマリと残課題を必ず出す
+
+<span class="h">## 禁止</span>
+- 認証情報のコミット（.env / credentials.* は .gitignore 必須）
+- ゴールと無関係な変更
+</pre>
+    </div>
+  </div>
+</div>
+
+<!-- ============ ③ 復習資料ページ ============ -->
+<div class="page" id="page-review">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">セミナー受講者向け</span>
+      <h2>復習用スライド資料</h2>
+      <p>ループの考え方・組み方をスライドでおさらい。プロンプト集と構造ファイルとあわせて読むと定着します。</p>
+    </div>
+  </div>
+  <div class="review">
+    <div class="reviewcard">
+      <div class="rc">
+        <h3>AI ループ・セミナー スライド</h3>
+        <p>「なぜループなのか」「ゴールと停止条件の決め方」「AGENTS.md / CLAUDE.md の使いどころ」を順を追って解説したスライドです。別タブで開いて、本ページのプロンプトを試しながら読み返してください。</p>
+        <a class="go" href="https://fuuuuuuma.github.io/ai-loop-seminar-slides/" target="_blank" rel="noopener">スライドを開く
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M9 7h8v8"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="framewrap">
+      <iframe src="https://fuuuuuuma.github.io/ai-loop-seminar-slides/" title="AI ループ・セミナー スライド" loading="lazy"></iframe>
+    </div>
+    <p class="rnote">埋め込みが表示されない場合は <a href="https://fuuuuuuma.github.io/ai-loop-seminar-slides/" target="_blank" rel="noopener">こちらから直接スライドを開けます</a>。</p>
+  </div>
+</div>
+
+<footer class="site">
+  <p><span class="slash">/</span>loop プロンプト集 — Claude Code / Codex で自律ループを回すための日本語レシピ集</p>
+</footer>
+
+<script>
+/* ============ データ ============ */
+const INDUSTRIES = ["開発","マーケ/SNS","コンテンツ制作","営業/CS","経営/バックオフィス","リサーチ"];
+const USES = ["監視・ポーリング","自動改善","定期生成","収集・蓄積","品質チェック","自律探索"];
+
+const PROMPTS = [
+  { t:"CIがgreenになるまで自動修正", d:"失敗テストを1つずつ直して、全部通るまで回し続ける。",
+    ind:["開発"], use:["自動改善","品質チェック"], int:"セルフペース",
+    p:"/loop CIを確認し、失敗しているテストがあれば原因を特定して修正→再実行する。全テストが green になったら停止して、直した内容を要約せよ。",
+    tip:"PR前の仕上げに。1ターン1テストで暴走を防ぐ。" },
+
+  { t:"PRレビュー待ちを見張る", d:"新しいレビューコメントが付いたら要約して対応方針を提案。",
+    ind:["開発"], use:["監視・ポーリング"], int:"10分おき",
+    p:"/loop 10m open状態の自分のPRを確認し、新しいレビューコメントが付いていたら内容を要約して対応方針を1行で提案。マージ可能になったら通知して停止せよ。",
+    tip:"レビュー往復の待ち時間をゼロに。" },
+
+  { t:"デプロイ完了の自動見守り", d:"成否を監視し、成功ならヘルスチェックまで確認して停止。",
+    ind:["開発"], use:["監視・ポーリング"], int:"5分おき",
+    p:"/loop 5m 直近のデプロイのステータスを確認。成功なら本番URLのヘルスチェックを叩いて200を確認し停止。失敗ならログの該当行を抜き出し、原因を報告して停止せよ。",
+    tip:"リリース当番をループに肩代わりさせる。" },
+
+  { t:"リファクタを限界まで回す", d:"テストを壊さず、改善余地が尽きるまで可読性を上げる。",
+    ind:["開発"], use:["自動改善"], int:"セルフペース",
+    p:"/loop 対象ディレクトリのコードを1ファイルずつ、テストを壊さない範囲で可読性リファクタする。2巡連続で改善余地が無くなったら停止し、変更点の一覧を出せ。",
+    tip:"「2巡連続でゼロ」を停止条件にするのがコツ。" },
+
+  { t:"依存パッケージの脆弱性パトロール", d:"新しい警告だけを拾って、影響範囲と対処をレポート。",
+    ind:["開発","経営/バックオフィス"], use:["監視・ポーリング","品質チェック"], int:"1日おき",
+    p:"/loop 1d 依存パッケージの既知脆弱性を確認し、新しい警告があれば影響範囲と推奨アップデート手順をまとめてレポート。なければ『異常なし』とだけ記録して終了せよ。",
+    tip:"差分だけ報告させると通知が静かになる。" },
+
+  { t:"競合アカウントの新着ウォッチ", d:"競合のX投稿を定点観測し、使える切り口を蓄積。",
+    ind:["マーケ/SNS","リサーチ"], use:["監視・ポーリング","収集・蓄積"], int:"1時間おき",
+    p:"/loop 1h 指定した競合アカウントのX投稿を確認し、前回以降の新規投稿があれば『要点・伸びている数値・自分の企画に使える切り口』を3行で蓄積せよ。重複はスキップ。",
+    tip:"観測対象とメモ先を最初に1回だけ指定。" },
+
+  { t:"トレンドキーワード定点観測", d:"急上昇トピックの差分だけを毎回メモに追記。",
+    ind:["マーケ/SNS","リサーチ"], use:["収集・蓄積"], int:"6時間おき",
+    p:"/loop 6h 担当ジャンルの急上昇トピックを検索し、前回からの差分だけを抽出。動画・記事ネタになりそうなものに★を付けてメモに追記せよ。",
+    tip:"ネタ切れ防止の常時運用に。" },
+
+  { t:"投稿ネタを毎朝1本おろす", d:"蓄積メモから今日の1本を選び、構成まで下書き。",
+    ind:["コンテンツ制作"], use:["定期生成"], int:"1日おき（朝）",
+    p:"/loop 1d 蓄積したリサーチメモから今日の投稿ネタを1本選び、フック案を3パターン・本文構成・サムネ文言まで下書きして提出。過去と重複するネタは避けること。",
+    tip:"前段の『定点観測』ループと組み合わせる。" },
+
+  { t:"記事の推敲ループ", d:"弱いフック・冗長な段落を1つずつ直し続ける。",
+    ind:["コンテンツ制作"], use:["自動改善","品質チェック"], int:"セルフペース",
+    p:"/loop この記事を読者目線で読み返し、冒頭フックの弱さ・冗長な段落・根拠の薄い主張を1つずつ直す。直す箇所が無くなったら停止し、変更理由を箇条書きで出せ。",
+    tip:"公開前の最終仕上げに効く。" },
+
+  { t:"誇張表現・ファクトの自己点検", d:"言い過ぎと裏取りの無い数値を洗い出して修正。",
+    ind:["コンテンツ制作","マーケ/SNS"], use:["品質チェック"], int:"セルフペース",
+    p:"/loop 公開予定の原稿から『必ず・絶対・確実・神・ヤバい』等の誇張表現と、裏取りの無い数値・固有名詞を洗い出して修正案を提示。問題が無くなるまで繰り返し、最後に修正一覧を出せ。",
+    tip:"外部公開の前段ゲートに。" },
+
+  { t:"問い合わせの一次トリアージ", d:"緊急度を判定し、一次回答の下書きを用意。",
+    ind:["営業/CS"], use:["監視・ポーリング","定期生成"], int:"15分おき",
+    p:"/loop 15m 新着の問い合わせを確認し、緊急度（高/中/低）と一次回答の下書きを用意する。『高』だけは即通知。中・低は下書きをためておき、定時にまとめて提出せよ。",
+    tip:"返信そのものは人間が承認してから。" },
+
+  { t:"見込み客リストの育成リサーチ", d:"未調査の1社ずつ、提案軸まで1枚にまとめる。",
+    ind:["営業/CS","リサーチ"], use:["収集・蓄積","自律探索"], int:"セルフペース",
+    p:"/loop リストの未調査の見込み客を1社ずつ調べ、事業内容・直近の動き・刺さりそうな提案軸を『1社1枚』にまとめる。全件終わったら停止せよ。",
+    tip:"商談準備の下ごしらえを自動化。" },
+
+  { t:"日次KPIの異常検知", d:"平常範囲を外れた指標だけ、仮説つきでアラート。",
+    ind:["経営/バックオフィス"], use:["監視・ポーリング"], int:"1日おき",
+    p:"/loop 1d 主要KPIの数値を取得し、前日比・移動平均から外れた指標があれば原因仮説を添えてアラート。平常範囲なら一覧だけ記録して終了せよ。",
+    tip:"『何を異常とみなすか』を先に定義しておく。" },
+
+  { t:"議事録→タスク化の定期実行", d:"決定事項とToDoを担当・期限つきで整形。",
+    ind:["経営/バックオフィス"], use:["定期生成"], int:"1日おき",
+    p:"/loop 1d 新しい議事録を確認し、決定事項とToDoを抽出して担当・期限つきのタスクに整形。担当が未割り当てのものは『要確認』として一覧の先頭に出せ。",
+    tip:"会議の取りこぼしをループで回収。" },
+
+  { t:"論文・公式リリースの新着収集", d:"テーマの新着だけ『3行要約＋なぜ重要か』で追記。",
+    ind:["リサーチ"], use:["収集・蓄積","監視・ポーリング"], int:"12時間おき",
+    p:"/loop 12h 指定テーマの新着論文・公式リリースを確認し、前回以降の新規だけを『3行要約＋なぜ重要か』でメモに追記。既出は重複スキップせよ。",
+    tip:"情報のアンテナを常時張りっぱなしに。" },
+
+  { t:"比較表を埋めきる自律探索", d:"空欄セルを一次情報で1つずつ埋め、出典を添える。",
+    ind:["リサーチ"], use:["自律探索","収集・蓄積"], int:"セルフペース",
+    p:"/loop 作成中の比較表で空欄のセルを1つずつ、一次情報を当たって埋める。出典URLを必ず添え、確認できない項目は『未確認』と明記。全セルが埋まったら停止せよ。",
+    tip:"『未確認』を許すと止まらなくならない。" },
+
+  { t:"ドキュメントの陳腐化チェック", d:"古い手順・切れたリンク・矛盾を1本ずつ検出。",
+    ind:["経営/バックオフィス","開発"], use:["品質チェック","自律探索"], int:"1週間おき",
+    p:"/loop 1w ドキュメントを1本ずつ点検し、古い手順・切れたリンク・現状と矛盾する記述を検出して修正案を出す。全件点検し終えたら停止してレポートせよ。",
+    tip:"ナレッジベースの鮮度を保つ常駐ループ。" },
+
+  { t:"アイデアを出し切るブレストループ", d:"新しい切り口だけ採用、頭打ちで自動停止。",
+    ind:["コンテンツ制作","マーケ/SNS"], use:["自律探索","定期生成"], int:"セルフペース",
+    p:"/loop このテーマの企画アイデアを5案ずつ出す。既出と重複しない新しい切り口だけを採用し、2巡連続で新案が出なくなったら停止。全アイデアを分類して提出せよ。",
+    tip:"発散→収束を1コマンドで。" },
+
+  { t:"サブエージェント・アリーナ（応用）", d:"複数の解法を対戦させ、勝者を土台に再挑戦。",
+    ind:["開発","リサーチ"], use:["自律探索","自動改善"], int:"セルフペース", adv:true,
+    p:"/loop 同じ課題に対して複数のサブエージェントに別アプローチで解かせ、結果を勝ち負けで評価。勝った解法を次ラウンドの土台にして再対戦させる。改善が頭打ちになったら最良解を確定して停止せよ。",
+    tip:"参考: forwardfuture.ai『Axelrod subagent arena loop』。難問の探索に。" },
+];
+
+/* ============ 状態 ============ */
+const state = { q:"", ind:new Set(), use:new Set() };
+
+/* ============ 描画 ============ */
+const esc = s => s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+const elGrid = document.getElementById("grid");
+const elCount = document.getElementById("count");
+const elClear = document.getElementById("clear");
+document.getElementById("stat-total").textContent = PROMPTS.length;
+
+function buildChips(){
+  const ic = document.getElementById("ind-chips");
+  const uc = document.getElementById("use-chips");
+  INDUSTRIES.forEach(name=>{
+    const b=document.createElement("button");
+    b.className="chip ind"; b.textContent=name; b.dataset.ind=name;
+    b.onclick=()=>{ toggle(state.ind,name,b); render(); };
+    ic.appendChild(b);
+  });
+  USES.forEach(name=>{
+    const b=document.createElement("button");
+    b.className="chip use"; b.textContent=name; b.dataset.use=name;
+    b.onclick=()=>{ toggle(state.use,name,b); render(); };
+    uc.appendChild(b);
+  });
+}
+function toggle(set,name,btn){
+  if(set.has(name)){set.delete(name);btn.classList.remove("on");}
+  else{set.add(name);btn.classList.add("on");}
+}
+
+function match(item){
+  if(state.ind.size && ![...state.ind].some(x=>item.ind.includes(x))) return false;
+  if(state.use.size && ![...state.use].some(x=>item.use.includes(x))) return false;
+  if(state.q){
+    const hay=(item.t+" "+item.d+" "+item.p+" "+item.ind.join(" ")+" "+item.use.join(" ")).toLowerCase();
+    if(!state.q.toLowerCase().split(/\s+/).every(tk=>hay.includes(tk))) return false;
+  }
+  return true;
+}
+
+function promptHTML(p){
+  const body = esc(p.p).replace(/^(\/loop(?:\s+\S+)?)/, '<span class="cmd">$1</span>');
+  const inds = p.ind.map(x=>`<span class="t-ind">${x}</span>`).join("");
+  const uses = p.use.map(x=>`<span class="t-use">${x}</span>`).join("");
+  return `<article class="card${p.adv?' adv':''}">
+    <div class="top">
+      <div class="tagline">${inds}${uses}<span class="t-int">⟳ ${p.int}</span></div>
+      <h3>${esc(p.t)}</h3>
+      <div class="desc">${esc(p.d)}</div>
+    </div>
+    <div class="mid">
+      <pre data-raw="${esc(p.p)}">${body}</pre>
+      <div class="tip"><b>›</b><span>${esc(p.tip)}</span></div>
+    </div>
+    <div class="bot">
+      <button class="copy" data-prompt="${esc(p.p)}">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+        プロンプトをコピー
+      </button>
+    </div>
+  </article>`;
+}
+
+function render(){
+  const list = PROMPTS.filter(match);
+  elCount.textContent = list.length;
+  elClear.hidden = !(state.ind.size || state.use.size || state.q);
+  if(!list.length){
+    elGrid.innerHTML = `<div class="empty"><b>該当するプロンプトがありません</b>絞り込みを減らすか、別のキーワードでお試しください。</div>`;
+    return;
+  }
+  elGrid.innerHTML = list.map(promptHTML).join("");
+  elGrid.querySelectorAll(".copy").forEach(btn=>{
+    btn.addEventListener("click",()=>copyText(btn, btn.dataset.prompt));
+  });
+}
+
+/* ============ コピー ============ */
+function copyText(btn, text){
+  const label = btn.innerHTML;
+  navigator.clipboard.writeText(text).then(()=>{
+    btn.classList.add("done");
+    btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg> コピーしました';
+    setTimeout(()=>{ btn.classList.remove("done"); btn.innerHTML=label; }, 1600);
+  }).catch(()=>{ btn.textContent="コピー失敗"; setTimeout(()=>btn.innerHTML=label,1600); });
+}
+
+/* ============ 検索・クリア ============ */
+document.getElementById("q").addEventListener("input",e=>{ state.q=e.target.value.trim(); render(); });
+elClear.addEventListener("click",()=>{
+  state.q=""; state.ind.clear(); state.use.clear();
+  document.getElementById("q").value="";
+  document.querySelectorAll(".chip.on").forEach(c=>c.classList.remove("on"));
+  render();
+});
+
+/* ============ ページ切替 ============ */
+document.querySelectorAll(".tab").forEach(tab=>{
+  tab.addEventListener("click",()=>{
+    document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+    tab.classList.add("active");
+    document.querySelectorAll(".page").forEach(p=>p.classList.remove("show"));
+    document.getElementById("page-"+tab.dataset.page).classList.add("show");
+    window.scrollTo({top:0,behavior:"smooth"});
+  });
+});
+
+/* ============ ファイル切替（構造ページ） ============ */
+document.querySelectorAll(".fbtn").forEach(b=>{
+  b.addEventListener("click",()=>{
+    document.querySelectorAll(".fbtn").forEach(x=>x.classList.remove("active"));
+    b.classList.add("active");
+    document.querySelectorAll(".filebox").forEach(x=>x.classList.remove("show"));
+    document.getElementById("file-"+b.dataset.file).classList.add("show");
+  });
+});
+document.querySelectorAll(".filebox .copy").forEach(btn=>{
+  btn.addEventListener("click",()=>{
+    const pre=document.getElementById(btn.dataset.copy);
+    copyText(btn, pre.innerText);
+  });
+});
+
+/* ============ 起動 ============ */
+buildChips();
+render();
+</script>
+</body>
+</html>
