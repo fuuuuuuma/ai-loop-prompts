@@ -184,6 +184,43 @@
   .framewrap iframe{width:100%;height:100%;border:0;display:block;}
   .rnote{margin-top:16px;font-size:13px;color:var(--ink-mid);text-align:center;}
   .rnote a{color:var(--coral-deep);font-weight:700;}
+  /* ---------- 学習ロードマップ ---------- */
+  .learn{max-width:1080px;margin:0 auto;padding:0 22px 80px;}
+  .core{background:linear-gradient(125deg,var(--navy-deep),var(--navy) 58%,var(--blue-deep));color:#fff;border-radius:18px;padding:26px 30px;position:relative;overflow:hidden;box-shadow:var(--shadow-lg);}
+  .core::after{content:"";position:absolute;inset:0;opacity:.45;background-image:radial-gradient(circle,rgba(255,255,255,.1) 1.3px,transparent 1.4px);background-size:20px 20px;}
+  .core .rc{position:relative;z-index:1;}
+  .core h3{font-family:var(--head);font-weight:800;font-size:19px;margin-bottom:8px;}
+  .core p{color:#d6e2f0;font-size:13.5px;max-width:780px;}
+  .core .loopbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:16px;}
+  .core .loopbar .st{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.24);border-radius:10px;padding:8px 14px;font-size:12.5px;font-weight:700;font-family:var(--head);}
+  .core .loopbar .ar{color:#F2B98F;font-weight:800;font-size:15px;}
+  .srccredit{font-size:12.5px;color:var(--ink-mid);text-align:center;margin:16px 0 24px;}
+  .srccredit a{color:var(--coral-deep);font-weight:700;}
+  .layer{margin-bottom:18px;border:1px solid var(--line);border-radius:16px;background:var(--white);overflow:hidden;box-shadow:var(--shadow);}
+  .layer-head{display:flex;align-items:center;gap:13px;padding:15px 22px;color:#fff;}
+  .layer-head .lnum{font-family:var(--head);font-weight:800;font-size:12.5px;background:rgba(255,255,255,.22);border-radius:8px;padding:4px 10px;white-space:nowrap;}
+  .layer-head h4{font-family:var(--head);font-weight:800;font-size:16.5px;line-height:1.3;}
+  .layer-head h4 small{display:block;font-size:11px;opacity:.88;font-weight:500;}
+  .layer-head .range{margin-left:auto;font-family:ui-monospace,monospace;font-size:11.5px;font-weight:700;background:rgba(255,255,255,.16);border-radius:20px;padding:4px 11px;white-space:nowrap;}
+  .layer.l1 .layer-head{background:linear-gradient(120deg,var(--navy),var(--blue-deep));}
+  .layer.l2 .layer-head{background:linear-gradient(120deg,var(--coral-deep),var(--coral));}
+  .layer.l3 .layer-head{background:linear-gradient(120deg,var(--blue-deep),#3f9ab4);}
+  .layer.l4 .layer-head{background:linear-gradient(120deg,#5a7a64,#7C9885);}
+  .layer.l5 .layer-head{background:linear-gradient(120deg,var(--navy-deep),var(--coral-deep));}
+  .sess{display:grid;grid-template-columns:1fr 1fr;}
+  .sess .s{padding:14px 22px;border-top:1px solid var(--line);}
+  .sess .s:nth-child(odd){border-right:1px solid var(--line);}
+  .s .shd{display:flex;align-items:center;gap:9px;margin-bottom:4px;flex-wrap:wrap;}
+  .s .sno{font-family:ui-monospace,monospace;font-weight:700;font-size:11px;color:#fff;background:var(--navy);border-radius:6px;padding:2px 7px;}
+  .layer.l2 .s .sno{background:var(--coral-deep);}
+  .layer.l3 .s .sno{background:var(--blue-deep);}
+  .layer.l4 .s .sno{background:#5a7a64;}
+  .layer.l5 .s .sno{background:var(--coral-deep);}
+  .s .shd b{font-family:var(--head);font-weight:700;font-size:13.5px;color:var(--navy);}
+  .s p{font-size:12px;color:var(--ink-mid);line-height:1.65;}
+  .s.key{background:var(--coral-soft);}
+  .s.key .tagloop{display:inline-block;font-size:10.5px;font-weight:700;color:#fff;background:var(--coral);border-radius:5px;padding:1px 7px;}
+  @media(max-width:680px){.sess{grid-template-columns:1fr;}.sess .s:nth-child(odd){border-right:0;}}
 
   /* ---------- フッター ---------- */
   footer.site{background:var(--navy-deep);color:#aebfd4;padding:30px 22px;text-align:center;font-size:13px;}
@@ -203,6 +240,7 @@
     <div class="tabs">
       <button class="tab active" data-page="library">プロンプト集</button>
       <button class="tab" data-page="files">AGENTS / CLAUDE</button>
+      <button class="tab" data-page="learn">学習ロードマップ</button>
       <button class="tab" data-page="review">復習資料</button>
     </div>
   </div>
@@ -424,6 +462,82 @@
 
 <span class="c"># 自動化するなら /schedule で週次のクラウド実行に載せる</span>
 </pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ ④ 学習ロードマップページ ============ -->
+<div class="page" id="page-learn">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Learn Claude Code 日本語強化版</span>
+      <h2>AIエージェント実装 20ステップ</h2>
+      <p>「シンプルなループ」から「本番マルチエージェント基盤」まで、AIコーディングエージェントを 0→1 で組み上げる学習ロードマップ。<code style="background:#e7e2d8;padding:1px 6px;border-radius:4px">learn.shareai.run</code> の構成を土台に、各ステップへ“何を・なぜ・/loop運用との接続”を日本語で肉付けしました。</p>
+    </div>
+  </div>
+  <div class="learn">
+    <div class="core">
+      <div class="rc">
+        <h3>コアパターン — すべてのエージェントは同じ１周で動く</h3>
+        <p>どんなコーディングエージェントも、根っこはこの繰り返しです。実運用では、この上に「権限・ポリシー・ライフサイクル」の層を重ねていきます。本LPの <b>/loop</b> は、この１周を“ゴール達成まで”自動で回し続ける仕組みにあたります。</p>
+        <div class="loopbar">
+          <span class="st">① モデル呼び出し</span><span class="ar">→</span>
+          <span class="st">② ツール実行</span><span class="ar">→</span>
+          <span class="st">③ 結果を返す</span><span class="ar">↺</span>
+          <span class="st">…繰り返す</span>
+        </div>
+      </div>
+    </div>
+    <p class="srccredit">出典・原典: <a href="https://learn.shareai.run/ja/" target="_blank" rel="noopener">Learn Claude Code（learn.shareai.run/ja）↗</a> ／ 本ページはその構成を参照した日本語強化版です。</p>
+
+    <div class="layer l1">
+      <div class="layer-head"><span class="lnum">Layer 1</span><h4>ツールと実行<small>Tools &amp; Execution — エージェントの心臓部</small></h4><span class="range">s01–s04</span></div>
+      <div class="sess">
+        <div class="s"><div class="shd"><span class="sno">s01</span><b>最小エージェントループ</b></div><p>「呼び出し→実行→返却」の最小実装。まずこの１周を動かす、すべての出発点。</p></div>
+        <div class="s"><div class="shd"><span class="sno">s02</span><b>ツールのディスパッチ表</b></div><p>使える機能を「名前→実装」の表に登録。ツール追加が表へ１行で済む構造に。</p></div>
+        <div class="s"><div class="shd"><span class="sno">s03</span><b>実行前の承認ゲート</b></div><p>削除・上書き・外部送信など危険な操作の前に人間の承認を挟む。最初の安全弁。</p></div>
+        <div class="s"><div class="shd"><span class="sno">s04</span><b>ループ外の横断処理</b></div><p>ロギング・計測・レート制限など全ツールに効く処理を外側へ。本体を汚さない。</p></div>
+      </div>
+    </div>
+
+    <div class="layer l2">
+      <div class="layer-head"><span class="lnum">Layer 2</span><h4>計画と制御<small>Planning &amp; Control — 長い作業を御す</small></h4><span class="range">s05–s07・s10・s11</span></div>
+      <div class="sess">
+        <div class="s"><div class="shd"><span class="sno">s05</span><b>明示的な計画書</b></div><p>長い作業を計画→実行→更新できるようファイル化。途中で軌道修正でき進捗が読める。</p></div>
+        <div class="s"><div class="shd"><span class="sno">s06</span><b>サブエージェント（独立履歴）</b></div><p>サブタスクを別の会話履歴を持つ下位エージェントへ委譲。本体の文脈を汚さず分業。</p></div>
+        <div class="s"><div class="shd"><span class="sno">s07</span><b>必要時だけ知識を注入</b></div><p>専門知識を常時持たせず、必要な時だけ文脈に差し込む。Skillの発想。精度と節約の両立。</p></div>
+        <div class="s"><div class="shd"><span class="sno">s10</span><b>指示書の動的生成</b></div><p>ポリシー・ツール・スキル・文脈から、その場に合った指示（system prompt）を組み立てる。</p></div>
+        <div class="s"><div class="shd"><span class="sno">s11</span><b>故障分類と再試行戦略</b></div><p>エラーを種類で分け、リトライ/バックオフ/打ち切りを使い分け。失敗しても自己回復。</p></div>
+      </div>
+    </div>
+
+    <div class="layer l3">
+      <div class="layer-head"><span class="lnum">Layer 3</span><h4>記憶の管理<small>Memory Management — 忘れない仕組み</small></h4><span class="range">s08・s09</span></div>
+      <div class="sess">
+        <div class="s"><div class="shd"><span class="sno">s08</span><b>コンテキスト圧縮</b></div><p>会話が長くなったら要約して圧縮し、扱える範囲に保つ。トークン上限と戦う基本技。</p></div>
+        <div class="s"><div class="shd"><span class="sno">s09</span><b>要約後も残す記憶機構</b></div><p>圧縮で消えると困る重要情報を別の記憶層へ退避。長期タスクで“忘れない”ための層。</p></div>
+      </div>
+    </div>
+
+    <div class="layer l4">
+      <div class="layer-head"><span class="lnum">Layer 4</span><h4>並行と定期実行<small>Concurrency &amp; Scheduling — /loop の正体</small></h4><span class="range">s13・s14</span></div>
+      <div class="sess">
+        <div class="s"><div class="shd"><span class="sno">s13</span><b>遅延作業の並行実行</b></div><p>推論を続けている間に、時間のかかる作業を裏で並行処理。待ち時間を畳む。</p></div>
+        <div class="s key"><div class="shd"><span class="sno">s14</span><b>ハーネスによる定期実行</b><span class="tagloop">= /loop</span></div><p>「いつ動くか」をモデル任せにせず、外側のハーネスが定期実行を管理。本LPの /loop・/schedule はまさにこれ。</p></div>
+      </div>
+    </div>
+
+    <div class="layer l5">
+      <div class="layer-head"><span class="lnum">Layer 5</span><h4>マルチエージェント基盤<small>Multi-Agent Platform — 本番へ</small></h4><span class="range">s12・s15–s20</span></div>
+      <div class="sess">
+        <div class="s"><div class="shd"><span class="sno">s12</span><b>目標→作業グラフ化</b></div><p>曖昧なゴールを、順序付き・観察可能なタスクのグラフへ変換。何を・どの順で・どこまでを構造化。</p></div>
+        <div class="s"><div class="shd"><span class="sno">s15</span><b>永続的なチームメンバー</b></div><p>使い捨てでなく、並列作業のために常駐するエージェント群を持つ。</p></div>
+        <div class="s"><div class="shd"><span class="sno">s16</span><b>エージェント間通信の契約</b></div><p>やり取りの形式（入出力の約束）を明示。AGENTS.md 的な“契約書”の役割。</p></div>
+        <div class="s"><div class="shd"><span class="sno">s17</span><b>自律的な作業の発見・獲得</b></div><p>割り振られなくても、エージェントが自分でタスクを見つけて取りに行く。</p></div>
+        <div class="s"><div class="shd"><span class="sno">s18</span><b>並列用の独立ファイルシステム</b></div><p>各エージェントに独立したFS（worktree的）を与え、衝突なく並列作業。</p></div>
+        <div class="s"><div class="shd"><span class="sno">s19</span><b>標準プロトコルで外部連携</b></div><p>MCP などの標準プロトコル経由で外部サービス／ツールに接続。</p></div>
+        <div class="s"><div class="shd"><span class="sno">s20</span><b>本番対応の統合ハーネス</b></div><p>ここまでの層を束ね、権限・ライフサイクル・監視を備えた本番運用版へ統合。</p></div>
       </div>
     </div>
   </div>
