@@ -222,6 +222,35 @@
   .s.key .tagloop{display:inline-block;font-size:10.5px;font-weight:700;color:#fff;background:var(--coral);border-radius:5px;padding:1px 7px;}
   @media(max-width:680px){.sess{grid-template-columns:1fr;}.sess .s:nth-child(odd){border-right:0;}}
 
+  /* ---------- 配布キット ---------- */
+  .kit{max-width:1020px;margin:0 auto;padding:0 22px 80px;}
+  .kit .core h3{font-size:22px;}
+  .kit .core .gift{display:inline-block;font-size:12px;font-weight:700;font-family:var(--head);background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.28);border-radius:20px;padding:4px 13px;margin-bottom:12px;}
+  .kittools{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:22px;}
+  .ktool{background:var(--white);border:1px solid var(--line);border-radius:16px;padding:22px 24px;box-shadow:var(--shadow);}
+  .ktool .kname{display:inline-flex;align-items:center;gap:8px;font-family:ui-monospace,Menlo,monospace;font-weight:700;font-size:15px;color:var(--navy);background:var(--navy-soft);border:1px solid var(--line);border-radius:9px;padding:6px 12px;margin-bottom:12px;}
+  .ktool.b .kname{color:var(--coral-deep);background:var(--coral-soft);border-color:var(--line-cream);}
+  .ktool h4{font-family:var(--head);font-weight:800;font-size:16px;color:var(--navy);margin-bottom:8px;}
+  .ktool p{font-size:13px;color:var(--ink-mid);line-height:1.7;}
+  .ktool .ku{margin-top:12px;font-size:12px;color:var(--ink);}
+  .ktool .ku code{font-family:ui-monospace,Menlo,monospace;font-size:12px;background:var(--cream);border:1px solid var(--line-cream);border-radius:6px;padding:2px 7px;color:var(--navy);}
+  .kinstall{margin-top:24px;background:var(--navy-deep);border-radius:16px;padding:20px 22px;box-shadow:var(--shadow-lg);position:relative;}
+  .kinstall .kihd{font-family:var(--head);font-weight:700;font-size:13px;color:#9fb6d6;margin-bottom:12px;}
+  .kinstall pre{font-family:ui-monospace,Menlo,monospace;font-size:13px;line-height:1.9;color:#e6eefb;overflow-x:auto;}
+  .kinstall pre .cm{color:#7E94B5;}
+  .kinstall .kcopy{position:absolute;top:16px;right:16px;appearance:none;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.08);color:#dfeaf8;font-family:var(--head);font-weight:700;font-size:12px;border-radius:8px;padding:6px 13px;cursor:pointer;transition:.15s;}
+  .kinstall .kcopy:hover{background:rgba(255,255,255,.16);}
+  .kinstall .kcopy.done{background:var(--coral);border-color:var(--coral);color:#fff;}
+  .ksteps{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:24px;}
+  .kstep{background:var(--white);border:1px solid var(--line);border-radius:14px;padding:18px 20px;box-shadow:var(--shadow);}
+  .kstep .kn{font-family:var(--head);font-weight:800;font-size:13px;color:#fff;background:var(--coral);border-radius:7px;padding:2px 10px;display:inline-block;margin-bottom:9px;}
+  .kstep b{display:block;font-family:var(--head);font-weight:800;font-size:14.5px;color:var(--navy);margin-bottom:5px;}
+  .kstep p{font-size:12.5px;color:var(--ink-mid);line-height:1.65;}
+  .kgo{display:flex;justify-content:center;margin-top:26px;}
+  .kgo a{display:inline-flex;align-items:center;gap:9px;background:var(--coral);color:#fff;font-family:var(--head);font-weight:800;font-size:15px;border-radius:12px;padding:13px 26px;text-decoration:none;transition:.15s;box-shadow:var(--shadow);}
+  .kgo a:hover{background:var(--coral-deep);}
+  @media(max-width:680px){.kittools,.ksteps{grid-template-columns:1fr;}}
+
   /* ---------- フッター ---------- */
   footer.site{background:var(--navy-deep);color:#aebfd4;padding:30px 22px;text-align:center;font-size:13px;}
   footer.site .slash{color:var(--coral);font-family:var(--head);font-weight:800;}
@@ -242,6 +271,7 @@
       <button class="tab" data-page="files">AGENTS / CLAUDE</button>
       <button class="tab" data-page="learn">学習ロードマップ</button>
       <button class="tab" data-page="review">復習資料</button>
+      <button class="tab" data-page="kit">配布キット</button>
     </div>
   </div>
 </header>
@@ -569,6 +599,83 @@
   </div>
 </div>
 
+<!-- ============ ⑤ 配布キットページ ============ -->
+<div class="page" id="page-kit">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">セミナー受講者へのプレゼント</span>
+      <h2>オートパイロット・キット</h2>
+      <p>AI に「ゴールまで自走」させるための、日本語ファースト・キット。ラフな依頼を<b>検証できる <code style="background:#e7e2d8;padding:1px 6px;border-radius:4px">/goal</code> 契約</b>に整え、いまのプロジェクトに合った<b><code style="background:#e7e2d8;padding:1px 6px;border-radius:4px">/loop</code> プロンプト一式</b>まで組み上げる――その2つの道具を Claude Code プラグイン1つにまとめました。</p>
+    </div>
+  </div>
+
+  <div class="kit">
+    <div class="core">
+      <div class="rc">
+        <span class="gift">🎁 配布用ギフト版・MIT</span>
+        <h3>ゴールを整える → ループを組む → 回す</h3>
+        <p>手順を細かく固定するのではなく「結果と証拠」を固定する。長時間・反復する自律タスクの前に、まずゴールの輪郭を決め、そこへ向かう <span class="slash">/</span>loop を組み上げるための2点セットです。</p>
+        <div class="loopbar">
+          <span class="st">goal-compass でゴール整形</span>
+          <span class="ar">→</span>
+          <span class="st">/loop-forge でループ生成</span>
+          <span class="ar">→</span>
+          <span class="st">そのまま実行して自走</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="kittools">
+      <div class="ktool a">
+        <span class="kname">goal-compass<small style="font-weight:500;color:var(--ink-sub)">／スキル</small></span>
+        <h4>ゴールを整える</h4>
+        <p>ラフな依頼を「<b>何ができたら完了か / 何で確かめるか / 何を壊してはいけないか / どこで止まるか</b>」を備えた短い <span class="slash">/</span>goal に整形。長時間タスクの前に、結果と証拠を先に固定します。</p>
+        <p class="ku">起動: <code>「〜を /goal にして」</code>と頼むと自動で立ち上がります（Claude Code / Codex 対応）。</p>
+      </div>
+      <div class="ktool b">
+        <span class="kname">/loop-forge<small style="font-weight:500;color:var(--ink-sub)">／コマンド</small></span>
+        <h4>ループを組む</h4>
+        <p>いまのプロジェクトを読み込み、<b>検証ゲート・状態(cursor)・停止条件</b>を備えた、貼ってすぐ回せる <span class="slash">/</span>loop プロンプト一式を生成。自己採点しない本物のゲートと、無限ループを防ぐ停止条件つき。</p>
+        <p class="ku">使い方: <code>/loop-forge &lt;ゴールのヒント（任意）&gt;</code></p>
+      </div>
+    </div>
+
+    <div class="kinstall">
+      <button class="kcopy" id="kit-copy">コピー</button>
+      <div class="kihd">インストール（Claude Code）</div>
+      <pre id="kit-install"><span class="cm"># GitHub から直接登録</span>
+/plugin marketplace add fuuuuuuma/autopilot-kit
+/plugin install autopilot-kit@autopilot-kit</pre>
+    </div>
+
+    <div class="ksteps">
+      <div class="kstep">
+        <span class="kn">STEP 1</span>
+        <b>ゴールを整える</b>
+        <p>「○○を実現する <span class="slash">/</span>goal にして」と頼むと、goal-compass が完了条件つきの <span class="slash">/</span>goal を起草。</p>
+      </div>
+      <div class="kstep">
+        <span class="kn">STEP 2</span>
+        <b>ループを組む</b>
+        <p><span class="slash">/</span>loop-forge を実行すると、そのゴールに向かう <span class="slash">/</span>loop プロンプト一式を生成。</p>
+      </div>
+      <div class="kstep">
+        <span class="kn">STEP 3</span>
+        <b>回す</b>
+        <p>生成された <span class="slash">/</span>loop（または <span class="slash">/</span>goal）をそのまま実行して、AI に自走させる。</p>
+      </div>
+    </div>
+
+    <div class="kgo">
+      <a href="https://github.com/fuuuuuuma/autopilot-kit" target="_blank" rel="noopener">GitHub でキットを見る
+        <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M9 7h8v8"/></svg>
+      </a>
+    </div>
+
+    <p class="srccredit">土台にした原典（MIT）: <a href="https://github.com/gotalab/goal-setter-skill" target="_blank" rel="noopener">goal-setter-skill ↗</a> ／ <a href="https://github.com/usedhonda/makeloop" target="_blank" rel="noopener">makeloop ↗</a>。本キットはこれらを日本語ファーストに再構成・改名した派生版で、謝辞とライセンス全文は同梱の CREDITS.md に明記しています。</p>
+  </div>
+</div>
+
 <footer class="site">
   <p><span class="slash">/</span>loop プロンプト集 — Claude Code / Codex で自律ループを回すための日本語レシピ集</p>
 </footer>
@@ -788,6 +895,19 @@ document.querySelectorAll(".tab").forEach(tab=>{
     window.scrollTo({top:0,behavior:"smooth"});
   });
 });
+
+/* ============ 配布キット インストールコピー ============ */
+(function(){
+  const btn=document.getElementById("kit-copy");
+  if(!btn) return;
+  btn.addEventListener("click",()=>{
+    const txt="/plugin marketplace add fuuuuuuma/autopilot-kit\n/plugin install autopilot-kit@autopilot-kit";
+    navigator.clipboard.writeText(txt).then(()=>{
+      btn.textContent="コピーしました";btn.classList.add("done");
+      setTimeout(()=>{btn.textContent="コピー";btn.classList.remove("done");},1600);
+    }).catch(()=>{btn.textContent="コピー失敗";setTimeout(()=>btn.textContent="コピー",1600);});
+  });
+})();
 
 /* ============ ファイル切替（構造ページ） ============ */
 document.querySelectorAll(".fbtn").forEach(b=>{
