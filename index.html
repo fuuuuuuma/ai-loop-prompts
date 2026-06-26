@@ -180,8 +180,8 @@
   .reviewcard a.go{display:inline-flex;align-items:center;gap:9px;background:var(--coral);color:#fff;
     font-family:var(--head);font-weight:700;font-size:15px;text-decoration:none;border-radius:12px;padding:13px 24px;transition:.15s;}
   .reviewcard a.go:hover{background:var(--coral-deep);}
-  .framewrap{margin-top:26px;border-radius:18px;overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow-lg);background:#000;aspect-ratio:16/9;}
-  .framewrap iframe{width:100%;height:100%;border:0;display:block;}
+  .framewrap{margin-top:26px;border-radius:18px;overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow-lg);background:#000;aspect-ratio:16/9;position:relative;}
+  .framewrap iframe{position:absolute;top:0;left:0;width:1280px;height:720px;border:0;display:block;transform-origin:top left;}
   .rnote{margin-top:16px;font-size:13px;color:var(--ink-mid);text-align:center;}
   .rnote a{color:var(--coral-deep);font-weight:700;}
   /* ---------- 学習ロードマップ ---------- */
@@ -886,6 +886,17 @@ elClear.addEventListener("click",()=>{
 });
 
 /* ============ ページ切替 ============ */
+/* 埋め込みデッキ(1280×720固定)をフレーム幅に合わせて縮小表示 */
+function fitDeck(){
+  document.querySelectorAll(".framewrap").forEach(fw=>{
+    const f=fw.querySelector("iframe"); if(!f) return;
+    const w=fw.clientWidth; if(!w) return;
+    f.style.transform="scale("+(w/1280)+")";
+  });
+}
+window.addEventListener("resize",fitDeck);
+window.addEventListener("load",fitDeck);
+
 document.querySelectorAll(".tab").forEach(tab=>{
   tab.addEventListener("click",()=>{
     document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
@@ -893,6 +904,7 @@ document.querySelectorAll(".tab").forEach(tab=>{
     document.querySelectorAll(".page").forEach(p=>p.classList.remove("show"));
     document.getElementById("page-"+tab.dataset.page).classList.add("show");
     window.scrollTo({top:0,behavior:"smooth"});
+    requestAnimationFrame(fitDeck);
   });
 });
 
